@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
-var wordList = ['guavas']//, 'pizza', 'awkward', 'akimbo', 'fuchsia', 'glyph', 'pyramid', 'nostril', 'mnemonic']; //all letters lowercase
-
+var wordList = ['guavas', 'pizza', 'awkward', 'akimbo', 'fuchsia', 'glyph', 'pyramid', 'nostril', 'mnemonic', 'jazzed', 'obsidian', 'onyx', 'braggart', 'felicity', 'rhymes', 'police', 'require' ]; //all letters lowercase, some easy, some hard
+var timesPlayed = 0;
 var letterList = [['a','b', 'c', 'd', 'e','f','g','h','i','j','k','l','m'],['n','o', 'p', 'q', 'r','s','t','u','v','w','x','y','z']];
 var guessedLetters=[];
 var myWordArray = [];
@@ -40,7 +40,7 @@ function play() {
     }
 
     //initialize word to use, separate letters into an array
-		myWord = wordList[Math.floor(Math.random()*wordList.length)];
+		myWord = wordList[timesPlayed % wordList.length];
 		for (i=0; i<myWord.length; i++){
 			myWordArray.push(myWord.slice(i,i+1));
 		};
@@ -80,6 +80,13 @@ function play() {
     lettersArray = [];
     divcount = 0;
     $('#topRow, #botRow, #wordDisplay').empty();
+		ctx.clearRect(0,0, canvas.width, canvas.height);
+		ctx.beginPath();
+		ctx.moveTo(50, 550);
+		ctx.lineTo(50, 50);
+		ctx.lineTo(230, 50);
+		ctx.lineTo(230,100);
+		ctx.stroke();
   }
 
 
@@ -120,11 +127,13 @@ function play() {
       //win condition
       if(lettersArray.length === 0){
         if(confirm('You win! Play again?')){
+					timesPlayed++;
           play();
         }
       //loss condition
       } else if (numWrongGuesses === maxGuesses){
-        if (confirm('You lose! Play again?')){
+        if (confirm('The word was ' + myWord +'. You lose! Play again?')){
+					timesPlayed++;
           play();
         }
       }
